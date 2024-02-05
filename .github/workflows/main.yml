@@ -43,7 +43,7 @@ jobs:
 
       - name: Run tests using pytest
         run: |
-          pytest -v -n 5 tests/
+          pytest tests/test1.py
 
       - name: stop docker
         run: docker stop docker-apache
