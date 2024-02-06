@@ -18,15 +18,15 @@ class UpdateContactTestCase(unittest.TestCase):
             cls.url = os.environ['URL']
         except:
             cls.url = "http://localhost"
-        cls.name_query = ''.join(random.choices(string.ascii_letters, k=10))
+        cls.name_query = 'user'
 
     def test(self):
-        self.login_correct_credentials()
-        self.create_contact()
-        self.update_contact() 
-        self.delete_contact()       
+        self.login_valid()
+        self.create()
+        self.update() 
+        self.delete()       
 
-    def login_correct_credentials(self):
+    def login_valid(self):
         login_url = self.url + '/login.php'
         self.browser.get(login_url)
 
@@ -34,14 +34,14 @@ class UpdateContactTestCase(unittest.TestCase):
         self.browser.find_element(By.ID, 'inputPassword').send_keys('nimda666!')
         self.browser.find_element(By.TAG_NAME, 'button').click()
 
-    def create_contact(self):
+    def create(self):
         create_url = self.url + '/create.php'
         self.browser.get(create_url)
 
         self.browser.find_element(By.ID, 'name').send_keys(self.name_query)
-        self.browser.find_element(By.ID, 'email').send_keys('test@example.com')
-        self.browser.find_element(By.ID, 'phone').send_keys('1234567890')
-        self.browser.find_element(By.ID, 'title').send_keys('Developer')
+        self.browser.find_element(By.ID, 'email').send_keys('email@email.com')
+        self.browser.find_element(By.ID, 'phone').send_keys('62812345678')
+        self.browser.find_element(By.ID, 'title').send_keys('user')
 
         self.browser.find_element(By.CSS_SELECTOR, 'input[type="submit"]').click()
 
@@ -49,21 +49,19 @@ class UpdateContactTestCase(unittest.TestCase):
         actual_title = self.browser.title
         self.assertEqual(index_page_title, actual_title)
 
-    def update_contact(self):
+    def update(self):
         search_query = self.name_query
         self.browser.find_element(By.ID, 'employee_filter').find_element(By.TAG_NAME, 'input').send_keys(search_query)
         self.browser.find_element(By.ID, 'employee_filter').find_element(By.TAG_NAME, 'input').send_keys(Keys.ENTER)
-
         searched_contact_name = self.name_query
         searched_contact_exists = self.browser.find_elements(By.XPATH, f"//td[contains(text(), '{searched_contact_name}')]")
         self.assertTrue(searched_contact_exists)
         
         actions_section = self.browser.find_element(By.XPATH, "//tr[@role='row'][1]//td[contains(@class, 'actions')]")
         update_button = actions_section.find_element(By.XPATH, ".//a[contains(@class, 'btn-success')]")
-
         update_button.click()
 
-        new_title = "Updated Title"
+        new_title = "admin"
         self.browser.find_element(By.ID, 'title').clear()
         self.browser.find_element(By.ID, 'title').send_keys(new_title)
 
@@ -82,7 +80,7 @@ class UpdateContactTestCase(unittest.TestCase):
         updated_contact_exists = self.browser.find_elements(By.XPATH, f"//td[contains(text(), '{new_title}')]")
         self.assertTrue(updated_contact_exists)
 
-    def delete_contact(self):
+    def delete(self):
         actions_section = self.browser.find_element(By.XPATH, "//tr[@role='row'][1]//td[contains(@class, 'actions')]")
         delete_button = actions_section.find_element(By.XPATH, ".//a[contains(@class, 'btn-danger')]")
 
@@ -90,7 +88,7 @@ class UpdateContactTestCase(unittest.TestCase):
 
         self.browser.switch_to.alert.accept()
 
-        time.sleep(3)
+        time.sleep(10)
 
         search_query = self.name_query
         self.browser.find_element(By.ID, 'employee_filter').find_element(By.TAG_NAME, 'input').send_keys(search_query)
