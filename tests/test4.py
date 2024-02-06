@@ -1,26 +1,30 @@
-import unittest, os
+import unittest
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-class ProfilePictureUploadTestCase(unittest.TestCase):
+class ProfileImageUploadTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        option = webdriver.FirefoxOptions()
-        option.add_argument('--headless')
-        cls.browser = webdriver.Firefox(options=option)
+        # Configure a headless Firefox browser and set the URL.
+        options = webdriver.FirefoxOptions()
+        options.add_argument('--headless')
+        cls.browser = webdriver.Firefox(options=options)
         try:
             cls.url = os.environ['URL']
         except:
             cls.url = "http://localhost"
 
-    def test(self):
-        self.login_correct_credentials()
+    def test_profile_image_upload(self):
+        # Perform the test steps for profile picture upload.
+        self.login_with_correct_credentials()
         self.go_to_profile_page()
-        self.upload_profile_picture()
+        self.upload_new_profile_picture()
 
-    def login_correct_credentials(self):
-        login_url = self.url + '/login.php'
+    def login_with_correct_credentials(self):
+        # Log in using predefined credentials.
+        login_url = f"{self.url}/login.php"
         self.browser.get(login_url)
 
         self.browser.find_element(By.ID, 'inputUsername').send_keys('admin')
@@ -28,10 +32,12 @@ class ProfilePictureUploadTestCase(unittest.TestCase):
         self.browser.find_element(By.TAG_NAME, 'button').click()
 
     def go_to_profile_page(self):
-        profile_url = self.url + '/profil.php'
+        # Navigate to the user's profile page.
+        profile_url = f"{self.url}/profil.php"
         self.browser.get(profile_url)
 
-    def upload_profile_picture(self):
+    def upload_new_profile_picture(self):
+        # Upload a new profile picture and verify the changes.
         file_input = self.browser.find_element(By.ID, 'formFile')
         
         image_path = os.path.join(os.getcwd(), 'tests', 'test_images', 'image.jpg')
@@ -40,7 +46,7 @@ class ProfilePictureUploadTestCase(unittest.TestCase):
         submit_button = self.browser.find_element(By.CSS_SELECTOR, 'button.btn-secondary')
         submit_button.click()
 
-        redirected_url = self.url + '/profil.php'
+        redirected_url = f"{self.url}/profil.php"
         self.assertEqual(redirected_url, self.browser.current_url)
 
         new_profile_picture = self.browser.find_element(By.CSS_SELECTOR, 'img[src="image/profile.jpg"]')
@@ -48,7 +54,9 @@ class ProfilePictureUploadTestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        # Close the browser after all tests are executed.
         cls.browser.quit()
 
 if __name__ == '__main__':
+    # Run the tests with increased verbosity and ignore warnings.
     unittest.main(verbosity=2, warnings='ignore')
