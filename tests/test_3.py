@@ -14,7 +14,10 @@ class CreateContactTestCase(unittest.TestCase):
         option = webdriver.FirefoxOptions()
         option.add_argument('--headless')
         cls.browser = webdriver.Firefox(options=option)
-        cls.url = "http://localhost"
+        try:
+            cls.url = os.environ['URL']
+        except:
+            cls.url = "http://localhost"
         cls.name_query = ''.join(random.choices(string.ascii_letters, k=10))
 
     def test(self):
@@ -39,6 +42,7 @@ class CreateContactTestCase(unittest.TestCase):
         self.browser.find_element(By.ID, 'email').send_keys('email@email.com')
         self.browser.find_element(By.ID, 'phone').send_keys('62812345678')
         self.browser.find_element(By.ID, 'title').send_keys('User')
+
         self.browser.find_element(By.CSS_SELECTOR, 'input[type="submit"]').click()
 
         index_page_title = "Dashboard"
