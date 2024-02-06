@@ -20,7 +20,7 @@ class CreateContactTestCase(unittest.TestCase):
             cls.url = "http://localhost"
 
     def test(self):
-        self.login_correct_credentials()
+        self.login_valid()
         self.create_contact()
         self.search_contact()
         self.delete_contact()
