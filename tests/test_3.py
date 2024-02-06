@@ -1,6 +1,3 @@
-Tentu, berikut adalah kode yang telah diperbarui sesuai dengan permintaan Anda:
-
-```python
 import unittest
 import os
 import time
@@ -79,6 +76,3 @@ class CreateContactTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2, warnings='ignore')
-```
-
-Dalam kode ini, saya telah menghapus `try-except` untuk
