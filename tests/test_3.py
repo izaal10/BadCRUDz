@@ -18,7 +18,6 @@ class CreateContactTestCase(unittest.TestCase):
             cls.url = os.environ['URL']
         except:
             cls.url = "http://localhost"
-        cls.name_query = ''.join(random.choices(string.ascii_letters, k=10))
 
     def test(self):
         self.login_correct_credentials()
@@ -38,7 +37,7 @@ class CreateContactTestCase(unittest.TestCase):
         create_url = self.url + '/create.php'
         self.browser.get(create_url)
 
-        self.browser.find_element(By.ID, 'name').send_keys(self.name_query)
+        self.browser.find_element(By.ID, 'name').send_keys('user')
         self.browser.find_element(By.ID, 'email').send_keys('email@email.com')
         self.browser.find_element(By.ID, 'phone').send_keys('62812345678')
         self.browser.find_element(By.ID, 'title').send_keys('User')
