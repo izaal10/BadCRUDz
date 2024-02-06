@@ -24,9 +24,9 @@ class ValidLoginTestCase(unittest.TestCase):
     def test_index(self):
         # index.php
         def test_2_index_page(self):           
-        expected_result = "admin"
-        actual_result = self.browser.find_element(By.XPATH, "//h2[contains(text(),'Halo,')]").text.split(', ')[1]
-        self.assertIn(expected_result, actual_result)
+            expected_result = "admin"
+            actual_result = self.browser.find_element(By.XPATH, "//h2[contains(text(),'Halo,')]").text.split(', ')[1]
+            self.assertIn(expected_result, actual_result)
 
     @classmethod
     def tearDownClass(cls):
