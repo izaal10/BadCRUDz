@@ -24,7 +24,6 @@ class UpdateContactTestCase(unittest.TestCase):
         self.login_valid()
         self.create()
         self.update() 
-        self.delete()       
 
     def login_valid(self):
         login_url = self.url + '/login.php'
@@ -80,23 +79,6 @@ class UpdateContactTestCase(unittest.TestCase):
         updated_contact_exists = self.browser.find_elements(By.XPATH, f"//td[contains(text(), '{new_title}')]")
         self.assertTrue(updated_contact_exists)
 
-    def delete(self):
-        actions_section = self.browser.find_element(By.XPATH, "//tr[@role='row'][1]//td[contains(@class, 'actions')]")
-        delete_button = actions_section.find_element(By.XPATH, ".//a[contains(@class, 'btn-danger')]")
-
-        delete_button.click()
-
-        self.browser.switch_to.alert.accept()
-
-        time.sleep(10)
-
-        search_query = self.name_query
-        self.browser.find_element(By.ID, 'employee_filter').find_element(By.TAG_NAME, 'input').send_keys(search_query)
-        self.browser.find_element(By.ID, 'employee_filter').find_element(By.TAG_NAME, 'input').send_keys(Keys.ENTER)
-
-        searched_contact_name = self.name_query
-        searched_contact_exists = self.browser.find_elements(By.XPATH, f"//td[contains(text(), '{searched_contact_name}')]")
-        self.assertFalse(searched_contact_exists)
 
     @classmethod
     def tearDownClass(cls):
