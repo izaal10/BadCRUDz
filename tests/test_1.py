@@ -23,15 +23,16 @@ class ValidLoginTestCase(unittest.TestCase):
 
     def test_index(self):
         # index.php
+        def test_2_index_page(self):           
         expected_result = "admin"
         actual_result = self.browser.find_element(By.XPATH, "//h2[contains(text(),'Halo,')]").text.split(', ')[1]
         self.assertIn(expected_result, actual_result)
 
     @classmethod
     def tearDownClass(cls):
-        # Close the browser after all tests are executed.
+        # Close browser 
         cls.browser.quit()
 
 if __name__ == '__main__':
-    # Run the tests with increased verbosity and ignore warnings.
+    # Run the tests 
     unittest.main(verbosity=2, warnings='ignore')
